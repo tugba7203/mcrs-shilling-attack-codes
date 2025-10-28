@@ -1,0 +1,30 @@
+function [hit,topn_out,topn_idx,WRV] = topn_recom(overall_general,N,attackItem)
+attackData=overall_general(attackItem);
+targetItem=attackItem(1,size(attackData,2)-N+1:size(attackData,2));
+[outs inds]=sort(attackData,'descend');
+indisAtak_order=attackItem(inds);
+if length(indisAtak_order)<N
+    N=length(indisAtak_order);
+end
+topn_out=outs(1,1:N);
+topn_idx=indisAtak_order(1,1:N);
+sumHit=0;
+for h=1:size(topn_idx,2)
+    if (find(topn_idx(1,h)==targetItem))
+        sumHit=sumHit+1;
+    end
+end
+toplam=0;
+
+for k=1:N
+    deger=(find(topn_idx==targetItem(k)));
+    if isempty(deger)     
+    else
+    toplam=toplam+(N/deger);
+    end
+end
+hit=sumHit/size(targetItem,2);
+WRV=toplam;
+
+end
+
